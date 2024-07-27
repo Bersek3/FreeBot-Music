@@ -16,7 +16,7 @@ RUN pnpm install --offline --frozen-lockfile
 COPY . .
 
 # Construye el proyecto TypeScript
-RUN pnpm run build
+RUN pnpm run build || { echo "Build failed"; exit 1; }
 
 # Elimina las dependencias de desarrollo
 RUN pnpm prune --production

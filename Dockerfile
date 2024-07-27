@@ -1,5 +1,4 @@
-# Usa una imagen base de Node.js para la etapa de construcción
-FROM ghcr.io/hazmi35/node:18-dev-alpine as build-stage
+FROM ghcr.io/hazmi35/node:18-dev-alpine AS build-stage
 
 # Prepara pnpm con corepack (característica experimental)
 RUN corepack enable && corepack prepare pnpm@latest
@@ -25,8 +24,8 @@ RUN pnpm prune --production
 # Prepara el contenedor para producción
 FROM ghcr.io/hazmi35/node:18-alpine
 
-LABEL name "rawon"
-LABEL maintainer "Stegripe Development <support@stegripe.org>"
+LABEL name="rawon"
+LABEL maintainer="Stegripe Development <support@stegripe.org>"
 
 # Instala ffmpeg
 RUN apk add --no-cache ffmpeg python3 && ln -sf python3 /usr/bin/python
@@ -40,7 +39,7 @@ COPY --from=build-stage /tmp/build/lang ./lang
 COPY --from=build-stage /tmp/build/index.js ./index.js
 
 # Variables de entorno adicionales
-ENV NODE_ENV production
+ENV NODE_ENV="production"
 
 # Inicia la aplicación con node
 CMD ["node", "--es-module-specifier-resolution=node", "index.js"]

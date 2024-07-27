@@ -22,8 +22,5 @@ RUN pnpm run build
 # Limpia las dependencias de desarrollo
 RUN pnpm prune --production
 
-# Expone el puerto que tu aplicación usa (opcional)
-# EXPOSE 3000
-
 # Comando para iniciar la aplicación
 CMD ["pnpm", "start"]

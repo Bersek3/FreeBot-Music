@@ -1,29 +1,36 @@
-# Etapa de construcción
-FROM ghcr.io/hazmi35/node:18-dev-alpine AS build-stage
+FROM ghcr.io/hazmi35/node:18-dev-alpine as build-stage
 
-# Prepara pnpm
+# Prepare pnpm with corepack (experimental feature)
 RUN corepack enable && corepack prepare pnpm@latest
 
-# Copia archivos de configuración
-COPY package.json pnpm-lock.yaml *.npmrc ./
+# Copy package.json, lockfile and npm config files
+COPY package.json pnpm-lock.yaml *.npmrc  ./
 
-# Instala dependencias y construye el proyecto
+# Fetch dependencies to virtual store
 RUN pnpm fetch
+
+# Install dependencies
 RUN pnpm install --offline --frozen-lockfile
+
+# Copy Project files
 COPY . .
-RUN pnpm run build || { echo "Build failed"; exit 1; }
+
+# Build TypeScript Project
+RUN pnpm run build
+
+# Prune devDependencies
 RUN pnpm prune --production
 
-# Imagen para producción
+# Get ready for production
 FROM ghcr.io/hazmi35/node:18-alpine
 
-LABEL name="rawon"
-LABEL maintainer="Stegripe Development <support@stegripe.org>"
+LABEL name "rawon"
+LABEL maintainer "Stegripe Development <support@stegripe.org>"
 
-# Instala ffmpeg y python
+# Install ffmpeg
 RUN apk add --no-cache ffmpeg python3 && ln -sf python3 /usr/bin/python
 
-# Copia archivos necesarios desde la etapa de construcción
+# Copy needed files
 COPY --from=build-stage /tmp/build/package.json .
 COPY --from=build-stage /tmp/build/node_modules ./node_modules
 COPY --from=build-stage /tmp/build/dist ./dist
@@ -31,8 +38,11 @@ COPY --from=build-stage /tmp/build/yt-dlp-utils ./yt-dlp-utils
 COPY --from=build-stage /tmp/build/lang ./lang
 COPY --from=build-stage /tmp/build/index.js ./index.js
 
-# Configura el entorno
-ENV NODE_ENV="production"
+# Additional Environment Variables
+ENV NODE_ENV production
 
-# Comando de inicio
+# Add scripts volumes
+VOLUME /app/scripts
+
+# Start the app with node
 CMD ["node", "--es-module-specifier-resolution=node", "index.js"]

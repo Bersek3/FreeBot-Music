@@ -1,37 +1,37 @@
 # FreeBot Music
 
 
-## General Setup
-1. Download and install [Node.js](https://nodejs.org) version `16.6.0` or higher
-2. Open the `.env_example` file and rename it to `.env`
-3. Install required and optional dependencies. You still can use `npm` too.
+## Configuración general
+1. Descargue e instale [Node.js](https://nodejs.org) versión `16.6.0` o superior
+2. Abra el archivo `.env_example` y cámbiele el nombre a `.env`
+3. Instale las dependencias obligatorias y opcionales. También puede usar `npm`.
 ```sh
 $ pnpm install
 ```
-4. Compile the file
+4. Compila el archivo
 ```sh
 $ pnpm run build
 ```
-5. If you want to save your disk spaces, let's prune the dev dependencies
+5. Si desea ahorrar espacio en el disco, eliminemos las dependencias de desarrollo
 ```sh
 $ pnpm prune --production
 ```
-6. Finally, you can start the bot
+6. Finalmente, puede iniciar el bot
 ```sh
 $ pnpm start
 ```
-## Disclaimers
-Disclaimers are listed on the [DISCLAIMERS.md](./DISCLAIMERS.md) file.
+## Descargos de responsabilidad
+Los descargos de responsabilidad se encuentran en el archivo [DISCLAIMERS.md](./DISCLAIMERS.md).
 
-## Project Contributors
+## Colaboradores del proyecto
 
-### Developers
+### Desarrolladores
 - [@Mednoob](https://github.com/Mednoob)
 - [@mzrtamp](https://github.com/mzrtamp)
 - [@noxyzm](https://github.com/noxyzm)
 
-### Translators
-- [Developers](#developers) (en, id)
+### Traductores
+- [Desarrolladores](#desarrolladores) (en, id)
 - [@21Z](https://github.com/21Z) (en)
 - [@lxndr-rl](https://github.com/lxndr-rl) (es)
 - [@MoustacheOff](https://github.com/MoustacheOff) (fr)
@@ -43,4 +43,4 @@ Disclaimers are listed on the [DISCLAIMERS.md](./DISCLAIMERS.md) file.
 - [@Fyphen1223](https://github.com/Fyphen1223) (ja)
 - [@OsmanTunahan](https://github.com/OsmanTunahan) (tr)
 
-> © 2024 Stegripe Development
+> © 2024 Desarrollo de Stegripe

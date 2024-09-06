@@ -4,7 +4,7 @@ FROM ghcr.io/hazmi35/node:21-dev-alpine as build-stage
 RUN corepack enable && corepack prepare pnpm@latest
 
 # Copy package.json, lockfile and npm config files
-COPY package.json pnpm-lock.yaml *.npmrc  ./
+COPY package.json pnpm-lock.yaml *.npmrc ./
 
 # Fetch dependencies to virtual store
 RUN pnpm fetch
@@ -40,9 +40,6 @@ COPY --from=build-stage /tmp/build/index.js ./index.js
 
 # Additional Environment Variables
 ENV NODE_ENV production
-
-# Add scripts volumes
-VOLUME /app/scripts
 
 # Start the app with node
 CMD ["node", "--es-module-specifier-resolution=node", "index.js"]

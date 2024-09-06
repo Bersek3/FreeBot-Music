@@ -1,10 +1,10 @@
-FROM ghcr.io/hazmi35/node:18-dev-alpine as build-stage
+FROM ghcr.io/hazmi35/node:21-dev-alpine as build-stage
 
 # Prepare pnpm with corepack (experimental feature)
 RUN corepack enable && corepack prepare pnpm@latest
 
 # Copy package.json, lockfile and npm config files
-COPY package.json pnpm-lock.yaml *.npmrc ./
+COPY package.json pnpm-lock.yaml *.npmrc  ./
 
 # Fetch dependencies to virtual store
 RUN pnpm fetch
@@ -22,7 +22,7 @@ RUN pnpm run build
 RUN pnpm prune --production
 
 # Get ready for production
-FROM ghcr.io/hazmi35/node:18-alpine
+FROM ghcr.io/hazmi35/node:21-alpine
 
 LABEL name "rawon"
 LABEL maintainer "Stegripe Development <support@stegripe.org>"
@@ -41,8 +41,8 @@ COPY --from=build-stage /tmp/build/index.js ./index.js
 # Additional Environment Variables
 ENV NODE_ENV production
 
-# Remove the VOLUME directive
-# VOLUME /app/scripts
+# Add scripts volumes
+VOLUME /app/scripts
 
 # Start the app with node
 CMD ["node", "--es-module-specifier-resolution=node", "index.js"]
